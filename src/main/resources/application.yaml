@@ -1,6 +1,8 @@
 spring:
   application:
     name: personal-finance
+  profiles:
+    active: production
   mvc:
     locale-resolver: fixed
     locale: pt_BR
@@ -16,7 +18,7 @@ spring:
       hibernate.format_sql: true
 
 jwt:
-  secret: ${JWT_SECRET}
+  secret: ${JWT_SECRET:minha-chave-secreta}
 
 springdoc:
   override-with-generic-response: false
@@ -26,5 +28,3 @@ spring:
   config:
     activate:
       on-profile: production
-  jpa:
-    show-sql: false
