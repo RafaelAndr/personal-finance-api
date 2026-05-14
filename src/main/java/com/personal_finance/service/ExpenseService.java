@@ -37,33 +37,37 @@ public class ExpenseService {
         return securityService.getUserLoggedIn();
     }
 
-    public ExpenseResponseDto save(ExpenseRequestDto expenseRequestDto){
+    public ExpenseResponseDto save(ExpenseRequestDto expenseRequestDto) {
 
         Users userLoggedIn = getLoggedUser();
+        UUID userId = userLoggedIn.getId();
 
-        log.info("Starting expense creation for userId={}", userLoggedIn.getId());
+        log.info("event=expense_create_start userId={}", userId);
 
-        if (expenseRequestDto.value() != null && expenseRequestDto.value().compareTo(BigDecimal.ZERO) <= 0){
-            log.warn("Invalid expense value={} for userId={}", expenseRequestDto.value(), userLoggedIn.getId());
+        if (expenseRequestDto.value() != null &&
+                expenseRequestDto.value().compareTo(BigDecimal.ZERO) <= 0) {
+
+            log.warn("event=expense_invalid_value value={} userId={}", expenseRequestDto.value(), userId);
+
             throw new NegativeValueException("You can't register a negative or zero expense value");
         }
 
         Expense expense = expenseMapper.toEntity(expenseRequestDto);
         expense.setUser(userLoggedIn);
 
-        if (expenseRequestDto.accountId() != null){
-            log.info("Fetching accountId={} for userId={}", expenseRequestDto.accountId(), userLoggedIn.getId());
-            Account account = accountService.searchById(expenseRequestDto.accountId());
+        if (expenseRequestDto.accountId() != null) {
+            UUID accountId = expenseRequestDto.accountId();
 
-            account.validateOwnership(userLoggedIn.getId());
+            Account account = accountService.searchById(accountId);
+
+            account.validateOwnership(userId);
 
             expense.setAccount(account);
         }
 
         Expense savedExpense = expenseRepository.save(expense);
 
-        log.info("Expense created successfully with id={} for userId={}",
-                savedExpense.getId(), userLoggedIn.getId());
+        log.info("event=expense_created expenseId={} userId={}", savedExpense.getId(), userId);
 
         return expenseMapper.toDto(savedExpense);
     }

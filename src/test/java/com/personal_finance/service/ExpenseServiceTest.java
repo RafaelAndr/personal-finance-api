@@ -9,6 +9,7 @@ import com.personal_finance.entity.Payment;
 import com.personal_finance.entity.Users;
 import com.personal_finance.entity.enums.ExpenseCategory;
 import com.personal_finance.entity.enums.PaymentMethod;
+import com.personal_finance.entity.enums.Role;
 import com.personal_finance.exception.AccessForbiddenException;
 import com.personal_finance.exception.ExpenseAlreadyPaidException;
 import com.personal_finance.exception.InsufficientBalanceException;
@@ -25,7 +26,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -48,7 +48,9 @@ class ExpenseServiceTest {
     private PaymentService paymentService;
     @InjectMocks
     private ExpenseService expenseService;
+
     private Users userLoggedIn;
+
     private Account account;
 
     @BeforeEach
@@ -228,6 +230,7 @@ class ExpenseServiceTest {
 
         Users user = new Users();
         user.setId(UUID.randomUUID());
+        user.setRole(Role.ROLE_CLIENT);
 
         Account account = new Account();
         UUID accountId = UUID.randomUUID();
@@ -250,6 +253,7 @@ class ExpenseServiceTest {
 
         expenseService.payExpense(expenseId, request);
 
+        assertThat(user.getRole()).isEqualTo(Role.ROLE_CLIENT);
         assertThat(expense.isPaid()).isTrue();
         assertThat(account.getBalance()).isEqualByComparingTo("0.00");
 

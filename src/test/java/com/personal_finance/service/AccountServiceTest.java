@@ -17,7 +17,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -141,7 +140,7 @@ public class AccountServiceTest {
         accountService.editBankName(accountId, dto);
 
         assertThat(account.getBankName()).isEqualTo("Nubank");
-        verify(accountRepository).save(account);
+        verify(accountRepository, times(1)).save(account);
     }
 
     @Test
@@ -164,6 +163,8 @@ public class AccountServiceTest {
 
         assertThatThrownBy(() -> accountService.editBankName(accountId, dto))
                 .isInstanceOf(EntityAlreadyExistsException.class);
+
+        verify(accountRepository, never()).save(any());
     }
 
     @Test
