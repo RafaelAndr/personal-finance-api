@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class JwtUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
     private final UsersService usersService;
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        return new JwtUserDetails(usersService.searchByUsername(username));
+        return new CustomUserDetails(usersService.searchByUsername(username));
     }
 }

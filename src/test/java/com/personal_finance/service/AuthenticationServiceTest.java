@@ -3,7 +3,7 @@ package com.personal_finance.service;
 import com.personal_finance.dto.user.LoginUserDto;
 import com.personal_finance.security.JwtService;
 import com.personal_finance.security.JwtToken;
-import com.personal_finance.security.JwtUserDetails;
+import com.personal_finance.security.CustomUserDetails;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,7 +26,7 @@ public class AuthenticationServiceTest {
     @Mock
     private JwtService jwtService;
     @Mock
-    private JwtUserDetails jwtUserDetails;
+    private CustomUserDetails customUserDetails;
     @Mock
     private Authentication authentication;
     @InjectMocks
@@ -39,16 +39,16 @@ public class AuthenticationServiceTest {
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
                 .thenReturn(authentication);
 
-        when(authentication.getPrincipal()).thenReturn(jwtUserDetails);
+        when(authentication.getPrincipal()).thenReturn(customUserDetails);
 
-        when(jwtService.generateToken(jwtUserDetails)).thenReturn("fake-token");
+        when(jwtService.generateToken(customUserDetails)).thenReturn("fake-token");
 
         JwtToken result = authenticationService.login(dto);
 
         assertThat(result.token()).isEqualTo("fake-token");
 
         verify(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
-        verify(jwtService).generateToken(jwtUserDetails);
+        verify(jwtService).generateToken(customUserDetails);
     }
 
     @Test

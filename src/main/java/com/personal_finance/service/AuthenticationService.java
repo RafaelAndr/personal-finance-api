@@ -4,7 +4,7 @@ import com.personal_finance.dto.user.LoginUserDto;
 import com.personal_finance.dto.user.UserRequestDto;
 import com.personal_finance.security.JwtToken;
 import com.personal_finance.security.JwtService;
-import com.personal_finance.security.JwtUserDetails;
+import com.personal_finance.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,7 +30,7 @@ public class AuthenticationService {
                 new UsernamePasswordAuthenticationToken(dto.username(), dto.password())
         );
 
-        JwtUserDetails user = (JwtUserDetails) authentication.getPrincipal();
+        CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
 
         String token = jwtService.generateToken(user);
 
