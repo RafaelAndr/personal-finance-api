@@ -122,18 +122,18 @@ public class AccountController {
 
     @Operation(summary = "Deposit a value in the account")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Balance successfully deposited"),
+            @ApiResponse(responseCode = "204", description = "Balance successfully deposited"),
             @ApiResponse(responseCode = "401", description = "Unauthorized - user not authenticated"),
             @ApiResponse(responseCode = "403", description = "Forbidden - access denied")
     })
-    @PatchMapping("/accounts/{id}/balance/deposit")
+    @PatchMapping("/{id}/balance/deposit")
     public ResponseEntity<Void> addAmount(@PathVariable UUID id, @RequestBody UpdateBalanceDto updateBalanceDto){
         accountService.addAmount(id, updateBalanceDto);
 
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/accounts/{id}/balance/withdraw")
+    @PatchMapping("/{id}/balance/withdraw")
     public ResponseEntity<Void> removeAmount(@PathVariable UUID id, @RequestBody UpdateBalanceDto updateBalanceDto){
         accountService.removeAmount(id, updateBalanceDto);
 
