@@ -24,7 +24,7 @@ public class Income {
     @Enumerated(EnumType.STRING)
     private IncomeCategory incomeCategory;
 
-    @Column(name = "value")
+    @Column(name = "income_value")
     private BigDecimal value;
 
     @Column(name = "receipt_date")

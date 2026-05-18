@@ -27,7 +27,7 @@ public class Expense {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "value")
+    @Column(name = "expense_value")
     private BigDecimal value;
 
     @Column(name = "paid")
