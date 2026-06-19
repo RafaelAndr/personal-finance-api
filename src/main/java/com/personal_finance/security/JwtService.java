@@ -81,6 +81,12 @@ public class JwtService {
                 .before(new Date());
     }
 
+    private boolean isRefreshToken(String token) {
+        return "REFRESH".equals(
+                getClaims(token).get("type", String.class)
+        );
+    }
+
     private Claims getClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getKey())
@@ -95,7 +101,7 @@ public class JwtService {
 
         UserDetails user = userDetailsService.loadUserByUsername(username);
 
-        if (!isTokenValid(refreshToken, user)) {
+        if (!isRefreshToken(refreshToken) || !isTokenValid(refreshToken, user)) {
             throw new BadCredentialsException("Invalid refresh token");
         }
 
