@@ -251,10 +251,7 @@ class AccountIntegrationTest {
         UpdateBalanceDto dto = new UpdateBalanceDto(BigDecimal.valueOf(50));
 
         mockMvc.perform(
-                        patch(
-                                "/accounts/{id}/balance/withdraw",
-                                account.getId()
-                        )
+                        patch("/accounts/{id}/balance/withdraw", account.getId())
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isNoContent());

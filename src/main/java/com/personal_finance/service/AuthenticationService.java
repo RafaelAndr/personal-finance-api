@@ -2,7 +2,7 @@ package com.personal_finance.service;
 
 import com.personal_finance.dto.user.LoginUserDto;
 import com.personal_finance.dto.user.UserRequestDto;
-import com.personal_finance.security.JwtToken;
+import com.personal_finance.security.dtos.AccessToken;
 import com.personal_finance.security.JwtService;
 import com.personal_finance.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final UsersService usersService;
 
-    public JwtToken login(LoginUserDto dto) {
+    public AccessToken login(LoginUserDto dto) {
 
         log.info("Login attempt for username '{}'", dto.username());
 
@@ -36,11 +36,15 @@ public class AuthenticationService {
 
         log.info("User {} logged in successfully", user.getId());
 
-        return new JwtToken(token);
+        return new AccessToken(token);
     }
 
     @Transactional
     public void register(UserRequestDto userRequestDto) {
         usersService.register(userRequestDto);
+    }
+
+    public AccessToken refresh(String refreshToken) {
+        return jwtService.refresh(refreshToken);
     }
 }

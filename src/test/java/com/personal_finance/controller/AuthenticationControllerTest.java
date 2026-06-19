@@ -1,7 +1,7 @@
 package com.personal_finance.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.personal_finance.security.JwtToken;
+import com.personal_finance.security.dtos.AccessToken;
 import com.personal_finance.dto.user.LoginUserDto;
 import com.personal_finance.dto.user.UserRequestDto;
 import com.personal_finance.security.JwtService;
@@ -46,7 +46,7 @@ public class AuthenticationControllerTest {
                 "123456"
         );
 
-        JwtToken response = new JwtToken(
+        AccessToken response = new AccessToken(
                 "jwt-token"
         );
 

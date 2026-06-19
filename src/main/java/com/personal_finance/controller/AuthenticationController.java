@@ -2,7 +2,9 @@ package com.personal_finance.controller;
 
 import com.personal_finance.dto.user.LoginUserDto;
 import com.personal_finance.dto.user.UserRequestDto;
-import com.personal_finance.security.JwtToken;
+import com.personal_finance.security.JwtService;
+import com.personal_finance.security.dtos.AccessToken;
+import com.personal_finance.security.dtos.RefreshToken;
 import com.personal_finance.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,8 +21,8 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping
-    public ResponseEntity<JwtToken> authenticate(@RequestBody LoginUserDto dto) {
-        JwtToken token = authenticationService.login(dto);
+    public ResponseEntity<AccessToken> authenticate(@RequestBody LoginUserDto dto) {
+        AccessToken token = authenticationService.login(dto);
         return ResponseEntity.ok(token);
     }
 
@@ -30,4 +32,8 @@ public class AuthenticationController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @PostMapping("/refresh")
+    public AccessToken refresh(@RequestBody RefreshToken request) {
+        return authenticationService.refresh(request.refreshToken());
+    }
 }
