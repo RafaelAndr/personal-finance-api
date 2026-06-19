@@ -1,6 +1,6 @@
 package com.personal_finance.security;
 
-import com.personal_finance.security.dtos.AccessToken;
+import com.personal_finance.security.dtos.NewAccessToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -25,8 +25,11 @@ public class JwtService {
     @Value("${jwt.secret}")
     private String secret;
 
-    @Value("${jwt.expiration}")
-    private long expiration;
+    @Value("${jwt.access-expiration}")
+    private long accessExpiration;
+
+    @Value(("${jwt.refresh-expiration}"))
+    private long refreshExpiration;
 
     private final UserDetailsService userDetailsService;
 
@@ -35,8 +38,7 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateToken(UserDetails user) {
-
+    public String generateAccessToken(UserDetails user) {
         List<String> roles = user.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
@@ -44,9 +46,20 @@ public class JwtService {
 
         return Jwts.builder()
                 .setSubject(user.getUsername())
+                .claim("type", "ACCESS")
                 .claim("roles", roles)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
+                .setExpiration(new Date(System.currentTimeMillis() + accessExpiration))
+                .signWith(getKey())
+                .compact();
+    }
+
+    public String generateRefreshToken(UserDetails user) {
+        return Jwts.builder()
+                .setSubject(user.getUsername())
+                .claim("type", "REFRESH")
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + refreshExpiration))
                 .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -76,7 +89,7 @@ public class JwtService {
                 .getBody();
     }
 
-    public AccessToken refresh(String refreshToken) {
+    public NewAccessToken refresh(String refreshToken) {
 
         String username = getUsername(refreshToken);
 
@@ -86,8 +99,8 @@ public class JwtService {
             throw new BadCredentialsException("Invalid refresh token");
         }
 
-        String newAccessToken = generateToken(user);
+        String newAccessToken = generateAccessToken(user);
 
-        return new AccessToken(newAccessToken);
+        return new NewAccessToken(newAccessToken);
     }
 }

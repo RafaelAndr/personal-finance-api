@@ -1,6 +1,7 @@
 package com.personal_finance.security;
 
 import io.jsonwebtoken.JwtException;
+import jakarta.annotation.Nonnull;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,8 +28,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain chain)
+                                    @Nonnull HttpServletResponse response,
+                                    @Nonnull FilterChain chain)
             throws ServletException, IOException {
 
         String header = request.getHeader("Authorization");
