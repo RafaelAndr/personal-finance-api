@@ -1,8 +1,10 @@
 package com.personal_finance.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.personal_finance.dto.user.LoginUserDto;
 import com.personal_finance.dto.user.UserRequestDto;
 import com.personal_finance.security.JwtService;
+import com.personal_finance.security.dtos.AuthenticationResponse;
 import com.personal_finance.service.AuthenticationService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -35,32 +38,36 @@ public class AuthenticationControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-//    @Test
-//    void shouldAuthenticateUser() throws Exception {
-//
-//        LoginUserDto request = new LoginUserDto(
-//                "rafael@gmail.com",
-//                "123456"
-//        );
-//
-//        AccessToken response = new AccessToken(
-//                "jwt-token"
-//        );
-//
-//        when(authenticationService.login(any(LoginUserDto.class)))
-//                .thenReturn(response);
-//
-//        mockMvc.perform(
-//                        post("/auth")
-//                                .contentType(MediaType.APPLICATION_JSON)
-//                                .content(objectMapper.writeValueAsString(request))
-//                )
-//                .andExpect(status().isOk())
-//                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(jsonPath("$.token").value("jwt-token"));
-//
-//        verify(authenticationService).login(any(LoginUserDto.class));
-//    }
+    @Test
+    void shouldAuthenticateUser() throws Exception {
+
+        LoginUserDto request = new LoginUserDto(
+                "rafael@gmail.com",
+                "123456"
+        );
+
+        AuthenticationResponse response =
+                new AuthenticationResponse(
+                        "access-token",
+                        "refresh-token"
+                );
+
+        when(authenticationService.login(any(LoginUserDto.class)))
+                .thenReturn(response);
+
+        mockMvc.perform(
+                        post("/auth")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request))
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.accessToken").value("access-token"))
+                .andExpect(jsonPath("$.refreshToken").value("refresh-token"));
+
+        verify(authenticationService)
+                .login(any(LoginUserDto.class));
+    }
 
     @Test
     void shouldRegisterUser() throws Exception {
