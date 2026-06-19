@@ -1,9 +1,7 @@
 package com.personal_finance.service;
 
-import com.personal_finance.dto.expense.ExpenseResponseDto;
 import com.personal_finance.dto.payment.PaymentResponseDto;
 import com.personal_finance.entity.Payment;
-import com.personal_finance.mapper.PaymentMapper;
 import com.personal_finance.repository.PaymentRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -12,14 +10,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
-import static java.util.stream.Collectors.toList;
-
 @Service
 @RequiredArgsConstructor
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
-    private final PaymentMapper paymentMapper;
 
     public void saveExpensePayment(Payment payment){
         paymentRepository.save(payment);

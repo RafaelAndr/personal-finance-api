@@ -2,9 +2,10 @@ package com.personal_finance.service;
 
 import com.personal_finance.dto.user.LoginUserDto;
 import com.personal_finance.dto.user.UserRequestDto;
-import com.personal_finance.security.dtos.AccessToken;
+import com.personal_finance.security.dtos.NewAccessToken;
 import com.personal_finance.security.JwtService;
 import com.personal_finance.security.CustomUserDetails;
+import com.personal_finance.security.dtos.AuthenticationResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,7 +23,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final UsersService usersService;
 
-    public AccessToken login(LoginUserDto dto) {
+    public AuthenticationResponse login(LoginUserDto dto) {
 
         log.info("Login attempt for username '{}'", dto.username());
 
@@ -32,11 +33,13 @@ public class AuthenticationService {
 
         CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
 
-        String token = jwtService.generateToken(user);
+        String accessToken = jwtService.generateAccessToken(user);
+
+        String refreshToken = jwtService.generateRefreshToken(user);
 
         log.info("User {} logged in successfully", user.getId());
 
-        return new AccessToken(token);
+        return new AuthenticationResponse(accessToken, refreshToken);
     }
 
     @Transactional
@@ -44,7 +47,7 @@ public class AuthenticationService {
         usersService.register(userRequestDto);
     }
 
-    public AccessToken refresh(String refreshToken) {
+    public NewAccessToken refresh(String refreshToken) {
         return jwtService.refresh(refreshToken);
     }
 }
