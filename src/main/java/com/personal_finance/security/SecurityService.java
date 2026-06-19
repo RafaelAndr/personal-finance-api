@@ -2,7 +2,6 @@ package com.personal_finance.security;
 
 import com.personal_finance.entity.Users;
 import com.personal_finance.repository.UsersRepository;
-import com.personal_finance.service.UsersService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;

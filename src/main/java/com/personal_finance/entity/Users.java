@@ -7,8 +7,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -44,6 +48,9 @@ public class Users {
     @UpdateTimestamp
     @Column(name = "modification_date")
     private LocalDateTime modificationDate;
+
+    @Column(name = "enabled")
+    private Boolean enabled;
 
     @OneToMany(mappedBy = "user")
     private List<Account> accounts;
