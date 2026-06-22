@@ -4,36 +4,104 @@ REST API for personal finance management, designed to help users organize and tr
 
 ## Tech Stack
 
-- Java 21
-- Spring Boot
-- Spring Data JPA
-- PostgreSQL
-- MapStruct
-- SpringDoc OpenAPI (Swagger)
-- JUnit 5
-- Docker
+* Java 21
+* Spring Boot
+* Spring Security
+* JWT Authentication
+* Spring Data JPA
+* PostgreSQL
+* MapStruct
+* SpringDoc OpenAPI (Swagger)
+* JUnit 5
+* Mockito
+* Docker
+
+## Security Features
+
+### Authentication & Authorization
+
+The application implements a stateless authentication mechanism using Spring Security and JWT (JSON Web Token).
+
+Features include:
+
+* User registration
+* User authentication
+* JWT generation and validation
+* Stateless security configuration
+* Password encryption using BCrypt
+* Protected endpoints
+* Role-based access preparation
+* Custom authentication filter
+
+### Authentication Flow
+
+```text
+Client
+   │
+   ▼
+POST /auth
+   │
+   ▼
+Validate Credentials
+   │
+   ▼
+Generate JWT
+   │
+   ▼
+Return Access Token
+```
+
+For protected endpoints:
+
+```text
+Client
+   │
+Authorization: Bearer <token>
+   │
+   ▼
+JWT Validation Filter
+   │
+   ▼
+Spring Security Context
+   │
+   ▼
+Protected Resource
+```
 
 ## Features
 
+### Security
+
+* User registration and authentication
+* JWT-based authorization
+* Password encryption with BCrypt
+* Stateless session management
+* Endpoint protection with Spring Security
+
 ### Account Management
-- Create and manage financial accounts
-- Retrieve account information
-- Filter transactions by account
+
+* Create and manage financial accounts
+* Retrieve account information
+* Filter transactions by account
 
 ### Expense Management
-- Register expenses
-- Retrieve paid expenses
-- Retrieve pending expenses
-- Update expense status
-- Delete expenses
+
+* Register expenses
+* Retrieve paid expenses
+* Retrieve pending expenses
+* Update expense status
+* Delete expenses
 
 ### Income Management
-- Register incomes
-- Track financial entries
+
+* Register incomes
+* Track financial entries
 
 ### Payment Management
-- Register payments
-- Manage payment status and history
+
+* Register payments
+* Manage payment status and history
+
 
 ### API Features
 - RESTful architecture
