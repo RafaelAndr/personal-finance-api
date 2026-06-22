@@ -1,159 +1,171 @@
-# Personal Finance API
+# 💰 Personal Finance API
 
-REST API for personal finance management, designed to help users organize and track their financial activities, including accounts, incomes, expenses, and payments.
+API REST para gerenciamento financeiro pessoal, desenvolvida para auxiliar usuários no controle de contas, receitas, despesas e pagamentos.
 
-## Tech Stack
+O projeto foi construído utilizando Java e Spring Boot, seguindo boas práticas de arquitetura em camadas, autenticação stateless com JWT e testes automatizados.
+
+---
+
+# 🚀 Tecnologias Utilizadas
+
+### Backend
 
 * Java 21
 * Spring Boot
+* Spring Data JPA
 * Spring Security
 * JWT Authentication
-* Spring Data JPA
-* PostgreSQL
 * MapStruct
+
+### Banco de Dados
+
+* PostgreSQL
+
+### Documentação
+
 * SpringDoc OpenAPI (Swagger)
+
+### Testes
+
 * JUnit 5
 * Mockito
+
+### DevOps
+
 * Docker
+* Docker Compose
 
-## Security Features
+---
 
-### Authentication & Authorization
+# 🔐 Segurança
 
-The application implements a stateless authentication mechanism using Spring Security and JWT (JSON Web Token).
+A aplicação implementa autenticação e autorização utilizando Spring Security e JWT (JSON Web Token).
 
-Features include:
+### Funcionalidades de Segurança
 
-* User registration
-* User authentication
-* JWT generation and validation
-* Stateless security configuration
-* Password encryption using BCrypt
-* Protected endpoints
-* Role-based access preparation
-* Custom authentication filter
+* Cadastro de usuários
+* Login de usuários
+* Geração de Access Token
+* Geração de Refresh Token
+* Renovação de Access Token
+* Autenticação Stateless
+* Criptografia de senhas com BCrypt
+* Endpoints protegidos
+* Controle de acesso baseado em permissões
 
-### Authentication Flow
+### Fluxo de Autenticação
 
 ```text
-Client
+Cliente
    │
    ▼
 POST /auth
    │
    ▼
-Validate Credentials
+Validação de Credenciais
    │
    ▼
-Generate JWT
+Geração de JWT
    │
    ▼
-Return Access Token
+Access Token + Refresh Token
 ```
 
-For protected endpoints:
+### Fluxo de Autorização
 
 ```text
-Client
+Cliente
    │
 Authorization: Bearer <token>
    │
    ▼
-JWT Validation Filter
+JWT Filter
    │
    ▼
 Spring Security Context
    │
    ▼
-Protected Resource
+Endpoint Protegido
 ```
 
-## Features
+---
 
-### Security
+# 📋 Funcionalidades
 
-* User registration and authentication
-* JWT-based authorization
-* Password encryption with BCrypt
-* Stateless session management
-* Endpoint protection with Spring Security
+## Usuários
 
-### Account Management
+* Cadastro de usuários
+* Consulta do perfil autenticado
+* Alteração de senha
+* Promoção de usuários para administrador
+* Gerenciamento de usuários por administradores
 
-* Create and manage financial accounts
-* Retrieve account information
-* Filter transactions by account
+## Contas
 
-### Expense Management
+* Cadastro de contas financeiras
+* Consulta de contas
+* Controle de saldo
+* Filtro de transações por conta
 
-* Register expenses
-* Retrieve paid expenses
-* Retrieve pending expenses
-* Update expense status
-* Delete expenses
+## Receitas
 
-### Income Management
+* Cadastro de receitas
+* Consulta de entradas financeiras
 
-* Register incomes
-* Track financial entries
+## Despesas
 
-### Payment Management
+* Cadastro de despesas
+* Consulta de despesas pagas
+* Consulta de despesas pendentes
+* Atualização de status
+* Exclusão de despesas
 
-* Register payments
-* Manage payment status and history
+## Pagamentos
 
+* Registro de pagamentos
+* Controle de histórico de pagamentos
+* Gerenciamento de status
 
-### API Features
-- RESTful architecture
-- DTO mapping with MapStruct
-- API documentation with Swagger/OpenAPI
-- Unit and integration testing support
-- Dockerized environment
-## Project Structure
+---
+
+# 📁 Estrutura do Projeto
 
 ```text
 personal-finance/
 ├── src/
 │   ├── main/
 │   │   ├── java/com/personal_finance/
-│   │   │   ├── config/            # Application configurations and beans
-│   │   │   ├── controller/        # REST API endpoints
-│   │   │   ├── dto/               # Data Transfer Objects
-│   │   │   │   ├── account/       # Account-related DTOs
-│   │   │   │   ├── expense/       # Expense-related DTOs
-│   │   │   │   ├── income/        # Income-related DTOs
-│   │   │   │   ├── payment/       # Payment-related DTOs
-│   │   │   │   └── user/          # User-related DTOs
-│   │   │   ├── entity/            # JPA entities
-│   │   │   │   └── enums/         # Enumerations used by entities
-│   │   │   ├── exception/         # Exception handling
-│   │   │   ├── mapper/            # Entity and DTO mapping (MapStruct)
-│   │   │   ├── repository/        # Data access layer (JPA repositories)
-│   │   │   ├── security/          # Security configurations and components
-│   │   │   └── service/           # Business logic layer
+│   │   │   ├── config/
+│   │   │   ├── controller/
+│   │   │   ├── dto/
+│   │   │   ├── entity/
+│   │   │   ├── exception/
+│   │   │   ├── mapper/
+│   │   │   ├── repository/
+│   │   │   ├── security/
+│   │   │   └── service/
 │   │   └── resources/
-│   │       ├── static/            # Static resources
-│   │       └── templates/         # Application templates
 │   └── test/
-│       ├── java/com/personal_finance/
-│       │   ├── controller/        # Controller tests
-│       │   ├── integration/       # Integration tests
-│       │   ├── repository/        # Repository tests
-│       │   └── service/           # Service tests
-│       └── resources/             # Test resources
+│       ├── controller/
+│       ├── integration/
+│       ├── repository/
+│       └── service/
 ```
-## Installation
 
-### Clone Repository
+---
+
+# ⚙️ Instalação
+
+### Clonar Repositório
 
 ```bash
-git clone https://github.com/your-username/personal-finance.git
+git clone https://github.com/seu-usuario/personal-finance.git
 cd personal-finance
 ```
 
-### Configure Database
+### Configurar Banco de Dados
 
-Configure the `application.yml` file:
+Configure o arquivo `application.yml`:
 
 ```yaml
 spring:
@@ -163,7 +175,7 @@ spring:
     password: password
 ```
 
-### Run Application
+### Executar Aplicação
 
 ```bash
 ./gradlew bootRun
@@ -171,9 +183,9 @@ spring:
 
 ---
 
-## Running with Docker
+# 🐳 Executando com Docker
 
-Start containers:
+Suba os containers:
 
 ```bash
 docker compose up -d
@@ -181,24 +193,24 @@ docker compose up -d
 
 ---
 
-## Testing
+# 🧪 Testes
 
-Run all tests:
+Executar todos os testes:
 
 ```bash
 ./gradlew test
 ```
 
-Test coverage includes:
+Cobertura de testes:
 
-- Unit tests
-- Integration tests
-- Repository tests
-- Controller tests
+* Testes Unitários
+* Testes de Integração
+* Testes de Repositório
+* Testes de Controllers
 
 ---
 
-## API Documentation
+# 📚 Documentação da API
 
 Swagger UI:
 
@@ -208,41 +220,94 @@ http://localhost:8080/swagger-ui.html
 
 ---
 
-## API Endpoints
+# 🔑 Endpoints de Autenticação
 
-### Accounts
-
-| Method | Endpoint | Description |
-|---------|----------|-------------|
-| POST | `/accounts` | Create account |
-| GET | `/accounts` | Retrieve accounts |
-| DELETE | `/accounts/{id}` | Delete account |
-
-### Expenses
-
-| Method | Endpoint | Description |
-|---------|----------|-------------|
-| POST | `/expenses` | Create expense |
-| GET | `/expenses` | Retrieve expenses |
-| PATCH | `/expenses/{id}` | Update expense status |
-| DELETE | `/expenses/{id}` | Delete expense |
+| Método | Endpoint         | Descrição                                                    |
+| ------ | ---------------- | ------------------------------------------------------------ |
+| POST   | `/auth`          | Realiza autenticação e retorna Access Token e Refresh Token  |
+| POST   | `/auth/register` | Cadastra um novo usuário                                     |
+| POST   | `/auth/refresh`  | Gera um novo Access Token utilizando um Refresh Token válido |
 
 ---
 
-## Architecture
+# 👤 Endpoints de Usuários
 
-The application follows a layered architecture:
+| Método | Endpoint                 | Descrição                               | Permissão           |
+| ------ | ------------------------ | --------------------------------------- | ------------------- |
+| GET    | `/users/me`              | Retorna os dados do usuário autenticado | Usuário Autenticado |
+| GET    | `/users/{id}`            | Busca usuário por ID                    | ADMIN               |
+| GET    | `/users`                 | Lista todos os usuários                 | ADMIN               |
+| PATCH  | `/users/change-password` | Altera a senha do usuário autenticado   | Usuário Autenticado |
+| DELETE | `/users/{id}`            | Remove um usuário                       | ADMIN               |
+| PUT    | `/users/{id}/promote`    | Promove um usuário para ADMIN           | ADMIN               |
 
-- **Controller Layer** – REST API endpoints
-- **Service Layer** – Business logic
-- **Repository Layer** – Data persistence
-- **DTO Layer** – Data transfer objects
-- **Mapper Layer** – Entity mapping using MapStruct
+### Perfis de Acesso
+
+| Perfil | Permissões                                             |
+| ------ | ------------------------------------------------------ |
+| USER   | Gerenciar seus próprios recursos e alterar senha       |
+| ADMIN  | Gerenciar usuários e acessar operações administrativas |
 
 ---
 
-## Author
+# 🏦 Endpoints de Contas
 
-Rafael Nascimento Andrade
+| Método | Endpoint         | Descrição     |
+| ------ | ---------------- | ------------- |
+| POST   | `/accounts`      | Criar conta   |
+| GET    | `/accounts`      | Listar contas |
+| DELETE | `/accounts/{id}` | Excluir conta |
 
-Backend Developer | Java | Spring Boot
+---
+
+# 💸 Endpoints de Despesas
+
+| Método | Endpoint         | Descrição                   |
+| ------ | ---------------- | --------------------------- |
+| POST   | `/expenses`      | Criar despesa               |
+| GET    | `/expenses`      | Listar despesas             |
+| PATCH  | `/expenses/{id}` | Atualizar status da despesa |
+| DELETE | `/expenses/{id}` | Excluir despesa             |
+
+---
+
+# 🏛 Arquitetura
+
+A aplicação segue uma arquitetura em camadas:
+
+```text
+Controller
+    │
+    ▼
+Service
+    │
+    ▼
+Repository
+    │
+    ▼
+PostgreSQL
+```
+
+### Camadas
+
+* **Controller Layer** → Exposição dos endpoints REST
+* **Service Layer** → Regras de negócio
+* **Repository Layer** → Persistência de dados
+* **DTO Layer** → Transferência de dados
+* **Mapper Layer** → Conversão entre entidades e DTOs utilizando MapStruct
+* **Security Layer** → Autenticação e autorização com Spring Security e JWT
+
+---
+
+# 👨‍💻 Autor
+
+**Rafael Nascimento Andrade**
+
+Desenvolvedor Backend Java
+
+* Java
+* Spring Boot
+* Spring Security
+* PostgreSQL
+* Docker
+* APIs REST
